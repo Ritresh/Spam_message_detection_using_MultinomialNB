@@ -1,162 +1,349 @@
+# 📧 Spam Message Detection using NLP
 
-# 🧾 Vendor Performance Analysis – Retail Inventory & Sales
-
-_Analyzing vendor efficiency and profitability to support strategic purchasing and inventory decisions using SQL, Python, and Power BI._
+A machine learning project that classifies SMS messages as **Spam** or **Ham (Not Spam)** using Natural Language Processing (NLP) techniques and a Naive Bayes classifier. The project includes data preprocessing, model training, experimentation with different algorithms, and a Streamlit web interface for real-time prediction.
 
 ---
 
 ## 📌 Table of Contents
-- <a href="#overview">Overview</a>
-- <a href="#business-problem">Business Problem</a>
-- <a href="#dataset">Dataset</a>
-- <a href="#tools--technologies">Tools & Technologies</a>
-- <a href="#project-structure">Project Structure</a>
-- <a href="#data-cleaning--preparation">Data Cleaning & Preparation</a>
-- <a href="#exploratory-data-analysis-eda">Exploratory Data Analysis (EDA)</a>
-- <a href="#research-questions--key-findings">Research Questions & Key Findings</a>
-- <a href="#dashboard">Dashboard</a>
-- <a href="#how-to-run-this-project">How to Run This Project</a>
-- <a href="#final-recommendations">Final Recommendations</a>
-- <a href="#author--contact">Author & Contact</a>
 
----
-<h2><a class="anchor" id="overview"></a>Overview</h2>
-
-This project evaluates vendor performance and retail inventory dynamics to drive strategic insights for purchasing, pricing, and inventory optimization. A complete data pipeline was built using SQL for ETL, Python for analysis and hypothesis testing, and Power BI for visualization.
-
----
-<h2><a class="anchor" id="business-problem"></a>Business Problem</h2>
-
-Effective inventory and sales management are critical in the retail sector. This project aims to:
-- Identify underperforming brands needing pricing or promotional adjustments
-- Determine vendor contributions to sales and profits
-- Analyze the cost-benefit of bulk purchasing
-- Investigate inventory turnover inefficiencies
-- Statistically validate differences in vendor profitability
-
----
-<h2><a class="anchor" id="dataset"></a>Dataset</h2>
-
-- Multiple CSV files located in `/data/` folder (sales, vendors, inventory)
-- Summary table created from ingested data and used for analysis
+- Overview  
+- Problem Statement  
+- Dataset  
+- Tools & Technologies  
+- Project Structure  
+- Data Cleaning & Preprocessing  
+- Exploratory Data Analysis (EDA)  
+- Model Building  
+- Model Comparison  
+- Streamlit Application  
+- How to Run This Project  
+- Future Improvements  
+- Author & Contact  
 
 ---
 
-<h2><a class="anchor" id="tools--technologies"></a>Tools & Technologies</h2>
+# Overview
 
-- SQL (Common Table Expressions, Joins, Filtering)
-- Python (Pandas, Matplotlib, Seaborn, SciPy)
-- Power BI (Interactive Visualizations)
-- GitHub
+Spam messages are a common problem in messaging platforms and email systems. Detecting spam automatically helps protect users from phishing, scams, and unwanted advertisements.
 
----
-<h2><a class="anchor" id="project-structure"></a>Project Structure</h2>
+This project builds an **SMS spam classifier using Natural Language Processing (NLP)**. The system processes text messages, converts them into numerical representations using **TF-IDF vectorization**, and classifies them using **Machine Learning models**.
 
-```
-vendor-performance-analysis/
-│
-├── README.md
-├── .gitignore
-├── requirements.txt
-├── Vendor Performance Report.pdf
-│
-├── notebooks/                  # Jupyter notebooks
-│   ├── exploratory_data_analysis.ipynb
-│   ├── vendor_performance_analysis.ipynb
-│
-├── scripts/                    # Python scripts for ingestion and processing
-│   ├── ingestion_db.py
-│   └── get_vendor_summary.py
-│
-├── dashboard/                  # Power BI dashboard file
-│   └── vendor_performance_dashboard.pbix
-```
+The project includes:
+
+- Data cleaning and preprocessing pipeline  
+- Feature engineering using NLP techniques  
+- Multiple model experiments and comparisons  
+- A trained **Naive Bayes classification model**  
+- An interactive **Streamlit web application**
 
 ---
-<h2><a class="anchor" id="data-cleaning--preparation"></a>Data Cleaning & Preparation</h2>
 
-- Removed transactions with:
-  - Gross Profit ≤ 0
-  - Profit Margin ≤ 0
-  - Sales Quantity = 0
-- Created summary tables with vendor-level metrics
-- Converted data types, handled outliers, merged lookup tables
+# Problem Statement
 
----
-<h2><a class="anchor" id="exploratory-data-analysis-eda"></a>Exploratory Data Analysis (EDA)</h2>
+Given a text message, the system should automatically determine whether it is:
 
-**Negative or Zero Values Detected:**
-- Gross Profit: Min -52,002.78 (loss-making sales)
-- Profit Margin: Min -∞ (sales at zero or below cost)
-- Unsold Inventory: Indicating slow-moving stock
+- **Spam** → promotional, fraudulent, or unwanted message  
+- **Ham** → legitimate or normal message  
 
-**Outliers Identified:**
-- High Freight Costs (up to 257K)
-- Large Purchase/Actual Prices
-
-**Correlation Analysis:**
-- Weak between Purchase Price & Profit
-- Strong between Purchase Qty & Sales Qty (0.999)
-- Negative between Profit Margin & Sales Price (-0.179)
+The goal is to build a reliable classification model that can **accurately detect spam messages using machine learning and NLP techniques**.
 
 ---
-<h2><a class="anchor" id="research-questions--key-findings"></a>Research Questions & Key Findings</h2>
 
-1. **Brands for Promotions**: 198 brands with low sales but high profit margins
-2. **Top Vendors**: Top 10 vendors = 65.69% of purchases → risk of over-reliance
-3. **Bulk Purchasing Impact**: 72% cost savings per unit in large orders
-4. **Inventory Turnover**: $2.71M worth of unsold inventory
-5. **Vendor Profitability**:
-   - High Vendors: Mean Margin = 31.17%
-   - Low Vendors: Mean Margin = 41.55%
-6. **Hypothesis Testing**: Statistically significant difference in profit margins → distinct vendor strategies
+# Dataset
 
----
-<h2><a class="anchor" id="dashboard"></a>Dashboard</h2>
+The project uses the **SMS Spam Collection Dataset**, which contains labeled SMS messages.
 
-- Power BI Dashboard shows:
-  - Vendor-wise Sales and Margins
-  - Inventory Turnover
-  - Bulk Purchase Savings
-  - Performance Heatmaps
+Each message is labeled as:
 
-![Vendor Performance Dashboard](images/dashboard.png)
+- **ham** → normal message  
+- **spam** → unwanted promotional or scam message  
 
----
-<h2><a class="anchor" id="how-to-run-this-project"></a>How to Run This Project</h2>
+Dataset files used in this project:
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/vendor-performance-analysis.git
-```
-3. Load the CSVs and ingest into database:
-```bash
-python scripts/ingestion_db.py
-```
-4. Create vendor summary table:
-```bash
-python scripts/get_vendor_summary.py
-```
-5. Open and run notebooks:
-   - `notebooks/exploratory_data_analysis.ipynb`
-   - `notebooks/vendor_performance_analysis.ipynb`
-6. Open Power BI Dashboard:
-   - `dashboard/vendor_performance_dashboard.pbix`
+dataset/raw/spam.csv  
+dataset/processed/spam_cleaned.csv  
+
+The processed dataset includes additional columns such as:
+
+- transformed_text  
+- num_characters  
+- num_words  
+- num_sentences  
 
 ---
-<h2><a class="anchor" id="final-recommendations"></a>Final Recommendations</h2>
 
-- Diversify vendor base to reduce risk
-- Optimize bulk order strategies
-- Reprice slow-moving, high-margin brands
-- Clear unsold inventory strategically
-- Improve marketing for underperforming vendors
+# Tools & Technologies
+
+### Programming Language
+- Python
+
+### Development Environment
+- Visual Studio Code (VS Code)
+
+### Data Analysis
+- Pandas  
+- NumPy  
+
+### Visualization
+- Matplotlib  
+- Seaborn  
+- WordCloud  
+
+### Natural Language Processing
+- NLTK  
+- Stopword Removal  
+- Tokenization  
+- Porter Stemming  
+
+### Machine Learning
+- Scikit-learn  
+- TF-IDF Vectorizer  
+- Multinomial Naive Bayes  
+- Logistic Regression  
+- Support Vector Machine  
+- Random Forest  
+- Gradient Boosting  
+
+### Application
+- Streamlit  
+
+### Version Control
+- Git  
+- GitHub  
 
 ---
-<h2><a class="anchor" id="author--contact"></a>Author & Contact</h2>
 
-**Ayushi Mishra**  
-Data Analyst  
-📧 Email: techclasses0810@gmail.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/ayushi-mishra-30813b174/)  
-🔗 [Portfolio](https://www.youtube.com/@techclasses0810/)
+# Project Structure
+
+Spam Message Detection using NLP/
+
+├── app/  
+│   └── streamlit_app.py  
+
+├── dataset/  
+│   ├── raw/  
+│   │   └── spam.csv  
+│   │  
+│   └── processed/  
+│       ├── spam.csv  
+│       └── spam_cleaned.csv  
+
+├── models/  
+│   └── spam_model3.pkl  
+
+├── notebook/  
+│   ├── spam.ipynb  
+│   └── differnet_models.ipynb  
+
+├── src/  
+│   ├── __init__.py  
+│   ├── data_preprocessing.py  
+│   ├── predict.py  
+│   └── train.py  
+
+├── requirements.txt  
+├── .gitignore  
+└── README.md  
+
+---
+
+# Data Cleaning & Preprocessing
+
+The dataset undergoes several preprocessing steps.
+
+### Removing Unnecessary Columns
+
+Columns with large numbers of missing values were removed:
+
+- Unnamed:2  
+- Unnamed:3  
+- Unnamed:4  
+
+### Renaming Columns
+
+Original dataset columns were renamed:
+
+v1 → target  
+v2 → text  
+
+### Label Encoding
+
+ham → 0  
+spam → 1  
+
+### Removing Duplicates
+
+Duplicate messages were removed to avoid bias in the model.
+
+### Text Processing Pipeline
+
+The preprocessing function performs several NLP operations:
+
+1. Convert text to lowercase  
+2. Tokenize words using NLTK  
+3. Remove punctuation and special characters  
+4. Remove stopwords  
+5. Apply stemming using Porter Stemmer  
+
+Example:
+
+Original:  
+"Congratulations! You have won a free prize."
+
+Processed:  
+"congratul free prize"
+
+---
+
+# Exploratory Data Analysis (EDA)
+
+Several analyses were performed to understand the dataset.
+
+### Message Distribution
+
+Spam vs Ham distribution visualized using a pie chart.
+
+Observation:
+
+- Ham messages dominate the dataset  
+- Spam messages represent a smaller proportion  
+
+### Text Statistics
+
+Additional features created:
+
+- Number of characters  
+- Number of words  
+- Number of sentences  
+
+These features help analyze patterns between spam and ham messages.
+
+### Word Frequency Analysis
+
+Common spam words discovered using WordCloud and frequency analysis:
+
+free  
+win  
+offer  
+prize  
+call  
+
+---
+
+# Model Building
+
+Text messages were converted into numerical vectors using **TF-IDF Vectorization**.
+
+Text → TF-IDF Vector → Machine Learning Model
+
+The final classification model used:
+
+**Multinomial Naive Bayes**
+
+Pipeline:
+
+TF-IDF Vectorizer  
+↓  
+Multinomial Naive Bayes  
+
+The trained pipeline was saved using pickle:
+
+models/spam_model3.pkl  
+
+---
+
+# Model Comparison
+
+Multiple models were tested during experimentation:
+
+- Gaussian Naive Bayes  
+- Multinomial Naive Bayes  
+- Bernoulli Naive Bayes  
+- Logistic Regression  
+- Support Vector Machine  
+- Random Forest  
+- Gradient Boosting  
+
+Vectorization methods compared:
+
+- TF-IDF  
+- Count Vectorizer  
+
+Results showed that **TF-IDF + Multinomial Naive Bayes performed best**.
+
+---
+
+# Streamlit Application
+
+The project includes a **Streamlit web application** that allows users to classify messages interactively.
+
+Features:
+
+- Enter a message  
+- Click **Classify**  
+- Get prediction instantly  
+
+Possible outputs:
+
+SPAM  
+HAM  
+
+Run the app:
+
+streamlit run app/streamlit_app.py
+
+---
+
+# How to Run This Project
+
+Clone the repository:
+
+git clone https://github.com/yourusername/spam-message-detection-nlp.git
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Train the model:
+
+python src/train.py
+
+This will generate:
+
+models/spam_model3.pkl
+
+Run the Streamlit app:
+
+streamlit run app/streamlit_app.py
+
+---
+
+# Future Improvements
+
+Possible enhancements:
+
+- Add probability score for predictions  
+- Deploy using Streamlit Cloud  
+- Improve preprocessing using lemmatization  
+- Train deep learning models (LSTM / BERT)  
+- Add email spam detection support  
+
+---
+
+# Author & Contact
+
+**Ritresh Kumar**
+
+BCA Student | Aspiring Data Scientist & Machine Learning Engineer
+
+Skills:
+
+- Python  
+- Machine Learning  
+- Natural Language Processing  
+- Data Analysis  
+- Deep Learning  
+
+📧 Email: ritresh273@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/feed/)  
+🔗 [GitHub](https://github.com/Ritresh/Ritresh)
