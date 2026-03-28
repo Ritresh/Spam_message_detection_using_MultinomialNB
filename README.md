@@ -1,348 +1,321 @@
 # 📧 Spam Message Detection using NLP
 
-A machine learning project that classifies SMS messages as **Spam** or **Ham (Not Spam)** using Natural Language Processing (NLP) techniques and a Naive Bayes classifier. The project includes data preprocessing, model training, experimentation with different algorithms, and a Streamlit web interface for real-time prediction.
+
+_A machine learning project that classifies SMS messages as **Spam** or **Ham (Not Spam)** using Natural Language Processing (NLP). The system processes message text using text preprocessing techniques and TF-IDF vectorization, and then classifies the message using a Multinomial Naive Bayes model._
 
 ---
 
 ## 📌 Table of Contents
-
-- Overview  
-- Problem Statement  
-- Dataset  
-- Tools & Technologies  
-- Project Structure  
-- Data Cleaning & Preprocessing  
-- Exploratory Data Analysis (EDA)  
-- Model Building  
-- Model Comparison  
-- Streamlit Application  
-- How to Run This Project  
-- Future Improvements  
-- Author & Contact  
+- <a href="#overview">Overview</a>
+- <a href="#problem-statement">Problem-Statement</a>
+- <a href="#dataset">Dataset</a>
+- <a href="#tools--technologies">Tools & Technologies</a>
+- <a href="#project-structure">Project Structure</a>
+- <a href="#data-preprocessing">Data Preprocessing</a>
+- <a href="#exploratory-data-analysis">Exploratory Data Analysis</a>
+- <a href="#model-building">Model Building</a>
+- <a href="#streamlit-application">Streamlit Application</a>
+- <a href="#how-to-run-this-project">How to Run This Project</a>
+- <a href="#future-improvements">Future Improvements</a>
+- <a href="#author--contact">Author & Contact</a>
 
 ---
 
-# Overview
+<h2><a class="anchor" id="overview"></a>Overview</h2>
 
-Spam messages are a common problem in messaging platforms and email systems. Detecting spam automatically helps protect users from phishing, scams, and unwanted advertisements.
+Spam messages are common in SMS and email communication. These messages often contain advertisements, scams, or phishing links. Automatically detecting spam helps protect users from unwanted and potentially harmful messages.
 
-This project builds an **SMS spam classifier using Natural Language Processing (NLP)**. The system processes text messages, converts them into numerical representations using **TF-IDF vectorization**, and classifies them using **Machine Learning models**.
+This project builds a **Spam Detection System using Natural Language Processing (NLP)**. The system processes SMS text data, cleans and transforms the text, and converts it into numerical features using **TF-IDF Vectorization**. A machine learning model then classifies each message as **Spam** or **Ham**.
 
-The project includes:
-
-- Data cleaning and preprocessing pipeline  
-- Feature engineering using NLP techniques  
-- Multiple model experiments and comparisons  
-- A trained **Naive Bayes classification model**  
-- An interactive **Streamlit web application**
+The project also includes a **Streamlit web application** where users can enter a message and instantly see whether it is spam or not.
 
 ---
 
-# Problem Statement
+<h2><a class="anchor" id="problem-statement"></a>Problem-Statement</h2>
 
-Given a text message, the system should automatically determine whether it is:
+With the increasing use of mobile messaging and online communication, spam messages have become a major issue.
 
-- **Spam** → promotional, fraudulent, or unwanted message  
-- **Ham** → legitimate or normal message  
+The goal of this project is to:
 
-The goal is to build a reliable classification model that can **accurately detect spam messages using machine learning and NLP techniques**.
+- Automatically classify SMS messages as spam or ham.
+- Apply Natural Language Processing techniques to clean and process text.
+- Transform text data into numerical features for machine learning.
+- Train and evaluate different machine learning models.
+- Provide an interactive interface for real-time message classification.
 
 ---
 
-# Dataset
+<h2><a class="anchor" id="dataset"></a>Dataset</h2>
 
 The project uses the **SMS Spam Collection Dataset**, which contains labeled SMS messages.
 
-Each message is labeled as:
-
-- **ham** → normal message  
-- **spam** → unwanted promotional or scam message  
+Each message in the dataset is labeled as:
+- **ham** → normal message
+- **spam** → unwanted promotional or fraudulent message
 
 Dataset files used in this project:
 
-dataset/raw/spam.csv  
-dataset/processed/spam_cleaned.csv  
+- spam.csv (original dataset)
+- spam_cleaned.csv (processed dataset)
 
-The processed dataset includes additional columns such as:
+Dataset location:
 
-- transformed_text  
-- num_characters  
-- num_words  
-- num_sentences  
+```
+dataset/raw/
+dataset/processed/
+```
+
+The processed dataset includes additional engineered features such as:
+
+- transformed_text
+- number of characters
+- number of words
+- number of sentences
 
 ---
 
-# Tools & Technologies
+<h2><a class="anchor" id="tools--technologies"></a>Tools & Technologies</h2>
 
-### Programming Language
+Programming & Libraries
 - Python
+- Pandas
+- NumPy
+- Scikit-Learn
+- NLTK
 
-### Development Environment
-- Visual Studio Code (VS Code)
+Machine Learning / NLP
+- TF-IDF Vectorizer
+- Multinomial Naive Bayes
+- Text Tokenization
+- Stopword Removal
+- Porter Stemmer
 
-### Data Analysis
-- Pandas  
-- NumPy  
+Visualization
+- Matplotlib
+- Seaborn
+- WordCloud
 
-### Visualization
-- Matplotlib  
-- Seaborn  
-- WordCloud  
+Application
+- Streamlit
 
-### Natural Language Processing
-- NLTK  
-- Stopword Removal  
-- Tokenization  
-- Porter Stemming  
-
-### Machine Learning
-- Scikit-learn  
-- TF-IDF Vectorizer  
-- Multinomial Naive Bayes  
-- Logistic Regression  
-- Support Vector Machine  
-- Random Forest  
-- Gradient Boosting  
-
-### Application
-- Streamlit  
-
-### Version Control
-- Git  
-- GitHub  
+Others
+- Pickle
+- Jupyter Notebook (VS Code Jupyter Extension)
+- Git & GitHub
 
 ---
 
-# Project Structure
+<h2><a class="anchor" id="project-structure"></a>Project Structure</h2>
 
+```
 Spam Message Detection using NLP/
-
-├── app/  
-│   └── streamlit_app.py  
-
-├── dataset/  
-│   ├── raw/  
-│   │   └── spam.csv  
-│   │  
-│   └── processed/  
-│       ├── spam.csv  
-│       └── spam_cleaned.csv  
-
-├── models/  
-│   └── spam_model3.pkl  
-
-├── notebook/  
-│   ├── spam.ipynb  
-│   └── differnet_models.ipynb  
-
-├── src/  
-│   ├── __init__.py  
-│   ├── data_preprocessing.py  
-│   ├── predict.py  
-│   └── train.py  
-
-├── requirements.txt  
-├── .gitignore  
-└── README.md  
+│
+├── app/
+│   └── streamlit_app.py
+│
+├── dataset/
+│   ├── raw/
+│   │   └── spam.csv
+│   │
+│   └── processed/
+│       ├── spam.csv
+│       └── spam_cleaned.csv
+│
+├── models/
+│   └── spam_model3.pkl
+│
+├── notebook/
+│   ├── spam.ipynb
+│   └── differnet_models.ipynb
+│
+├── src/
+│   ├── __init__.py
+│   ├── data_preprocessing.py
+│   ├── predict.py
+│   └── train.py
+│
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
 
 ---
 
-# Data Cleaning & Preprocessing
+<h2><a class="anchor" id="data-preprocessing"></a>Data Preprocessing</h2>
 
-The dataset undergoes several preprocessing steps.
+The preprocessing pipeline prepares the SMS text data for machine learning.
 
-### Removing Unnecessary Columns
+Key steps include:
 
-Columns with large numbers of missing values were removed:
+1. Data Cleaning
+   - Remove unnecessary columns.
+   - Rename columns for clarity.
 
-- Unnamed:2  
-- Unnamed:3  
-- Unnamed:4  
+2. Label Encoding
+   Convert labels into numerical values:
+   - ham → 0
+   - spam → 1
 
-### Renaming Columns
+3. Removing Duplicates
+   - Duplicate messages are removed to avoid bias.
 
-Original dataset columns were renamed:
+4. Text Processing
+   The text preprocessing pipeline performs:
 
-v1 → target  
-v2 → text  
-
-### Label Encoding
-
-ham → 0  
-spam → 1  
-
-### Removing Duplicates
-
-Duplicate messages were removed to avoid bias in the model.
-
-### Text Processing Pipeline
-
-The preprocessing function performs several NLP operations:
-
-1. Convert text to lowercase  
-2. Tokenize words using NLTK  
-3. Remove punctuation and special characters  
-4. Remove stopwords  
-5. Apply stemming using Porter Stemmer  
+   - Convert text to lowercase
+   - Tokenize words
+   - Remove punctuation
+   - Remove stopwords
+   - Apply stemming using Porter Stemmer
 
 Example:
 
-Original:  
+Original Message:
 "Congratulations! You have won a free prize."
 
-Processed:  
+Processed Text:
 "congratul free prize"
 
 ---
 
-# Exploratory Data Analysis (EDA)
+<h2><a class="anchor" id="exploratory-data-analysis"></a>Exploratory Data Analysis</h2>
 
-Several analyses were performed to understand the dataset.
+Exploratory Data Analysis (EDA) was performed to understand the dataset.
 
-### Message Distribution
+Analysis performed:
 
-Spam vs Ham distribution visualized using a pie chart.
+- Distribution of spam vs ham messages
+- Character count analysis
+- Word count analysis
+- Sentence count analysis
+- Word frequency analysis
 
-Observation:
+Visualizations used:
 
-- Ham messages dominate the dataset  
-- Spam messages represent a smaller proportion  
+- Pie charts
+- Pair plots
+- WordClouds
 
-### Text Statistics
-
-Additional features created:
-
-- Number of characters  
-- Number of words  
-- Number of sentences  
-
-These features help analyze patterns between spam and ham messages.
-
-### Word Frequency Analysis
-
-Common spam words discovered using WordCloud and frequency analysis:
-
-free  
-win  
-offer  
-prize  
-call  
+These analyses help understand the patterns that differentiate spam messages from normal messages.
 
 ---
 
-# Model Building
+<h2><a class="anchor" id="model-building"></a>Model Building</h2>
 
-Text messages were converted into numerical vectors using **TF-IDF Vectorization**.
+After preprocessing, the text data is converted into numerical features.
 
-Text → TF-IDF Vector → Machine Learning Model
+**TF-IDF Vectorization**
 
-The final classification model used:
+TF-IDF converts text messages into numerical feature vectors.
 
-**Multinomial Naive Bayes**
+Example pipeline:
 
-Pipeline:
-
+Text Message  
+↓  
 TF-IDF Vectorizer  
 ↓  
-Multinomial Naive Bayes  
+Machine Learning Model
 
-The trained pipeline was saved using pickle:
+Several machine learning models were tested:
 
-models/spam_model3.pkl  
+- Gaussian Naive Bayes
+- Multinomial Naive Bayes
+- Bernoulli Naive Bayes
+- Logistic Regression
+- Support Vector Machine
+- Random Forest
+- Gradient Boosting
 
----
+The best performing model for this project was:
 
-# Model Comparison
+**Multinomial Naive Bayes with TF-IDF Vectorization**
 
-Multiple models were tested during experimentation:
+The trained pipeline is saved as:
 
-- Gaussian Naive Bayes  
-- Multinomial Naive Bayes  
-- Bernoulli Naive Bayes  
-- Logistic Regression  
-- Support Vector Machine  
-- Random Forest  
-- Gradient Boosting  
-
-Vectorization methods compared:
-
-- TF-IDF  
-- Count Vectorizer  
-
-Results showed that **TF-IDF + Multinomial Naive Bayes performed best**.
+```
+models/spam_model3.pkl
+```
 
 ---
 
-# Streamlit Application
+<h2><a class="anchor" id="streamlit-application"></a>Streamlit Application</h2>
 
-The project includes a **Streamlit web application** that allows users to classify messages interactively.
+A simple Streamlit web application allows users to classify messages.
 
 Features:
 
-- Enter a message  
-- Click **Classify**  
-- Get prediction instantly  
+- Enter a message in the text box
+- Click **Classify**
+- Instantly see whether the message is **Spam** or **Ham**
 
-Possible outputs:
+Run the interface:
 
-SPAM  
-HAM  
-
-Run the app:
-
+```
 streamlit run app/streamlit_app.py
+```
 
 ---
 
-# How to Run This Project
+<h2><a class="anchor" id="how-to-run-this-project"></a>How to Run This Project</h2>
 
-Clone the repository:
+1. Clone the repository:
 
-git clone https://github.com/yourusername/spam-message-detection-nlp.git
+```bash
+git clone https://github.com/yourusername/spam-message-detection.git
+```
 
-Install dependencies:
+2. Install dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
-Train the model:
+3. Train the model:
 
+```bash
 python src/train.py
+```
 
 This will generate:
 
+```
 models/spam_model3.pkl
+```
 
-Run the Streamlit app:
+4. Run the Streamlit application:
 
+```bash
 streamlit run app/streamlit_app.py
+```
+
+5. Use the application:
+- Enter a message
+- Click **Classify**
+- See whether the message is spam or ham
 
 ---
 
-# Future Improvements
+<h2><a class="anchor" id="future-improvements"></a>Future Improvements</h2>
 
-Possible enhancements:
-
-- Add probability score for predictions  
-- Deploy using Streamlit Cloud  
-- Improve preprocessing using lemmatization  
-- Train deep learning models (LSTM / BERT)  
-- Add email spam detection support  
+- Deploy the application on cloud
+- Improve preprocessing using lemmatization
+- Use deep learning models (LSTM, BERT)
+- Add probability scores for predictions
+- Extend the system for email spam detection
 
 ---
 
-# Author & Contact
+<h2><a class="anchor" id="author--contact"></a>Author & Contact</h2>
 
-**Ritresh Kumar**
-
-BCA Student | Aspiring Data Scientist & Machine Learning Engineer
+**Ritresh Kumar**  
+BCA Student | Aspiring Data Scientist
 
 Skills:
-
-- Python  
-- Machine Learning  
-- Natural Language Processing  
-- Data Analysis  
-- Deep Learning  
+- Python
+- Machine Learning
+- Natural Language Processing
+- Data Analysis
+- Deep Learning
 
 📧 Email: ritresh273@gmail.com  
 🔗 [LinkedIn](https://www.linkedin.com/feed/)  
